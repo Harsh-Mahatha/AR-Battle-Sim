@@ -3,7 +3,6 @@ using UnityEngine;
 public class PunchSpawner : MonoBehaviour
 {
     public GameObject punchPrefab;
-    public float punchLifetime = 1f;
     public Transform SpawnPoint;
 
     public void SpawnPunch()
@@ -19,6 +18,5 @@ public class PunchSpawner : MonoBehaviour
         }
 
         GameObject spawnedPunch = Instantiate(punchPrefab, SpawnPoint.position, transform.rotation);
-        Destroy(spawnedPunch, punchLifetime);
     }
 }

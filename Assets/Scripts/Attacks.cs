@@ -32,7 +32,7 @@ public class Attacks : MonoBehaviour
     private void OnAttack()
     {
         anim.SetTrigger("Attacking");
-        //GetComponent<PunchSpawner>().SpawnPunch();
+        GetComponent<PunchSpawner>().SpawnPunch();
         Debug.Log("Attack button pressed");
     }
 
