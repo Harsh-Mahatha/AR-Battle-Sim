@@ -767,7 +767,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 492f8781f057c3c4da454df3abce1a8c, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: Mutant
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 492f8781f057c3c4da454df3abce1a8c, type: 3}
       propertyPath: m_IsActive
@@ -1487,7 +1487,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 62037877701c96648bb5c97f355b49ab, type: 3}
       propertyPath: m_Name
-      value: Enemy
+      value: Wukong
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 62037877701c96648bb5c97f355b49ab, type: 3}
       propertyPath: m_Layer
@@ -1601,6 +1601,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 62037877701c96648bb5c97f355b49ab, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b75310a93d968284582741c47625e6f4, type: 2}
     - target: {fileID: 6240733294840144465, guid: 62037877701c96648bb5c97f355b49ab, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -2200,7 +2204,7 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 397851928}
-  - {fileID: 1235567118}
   - {fileID: 473195745}
   - {fileID: 372948456}
+  - {fileID: 1235567118}
   - {fileID: 441535310}
