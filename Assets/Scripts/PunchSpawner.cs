@@ -3,7 +3,7 @@ using UnityEngine;
 public class PunchSpawner : MonoBehaviour
 {
     public GameObject punchPrefab;
-    public Transform SpawnPoint;
+    public Transform spawnPoint;
 
     public void SpawnPunch()
     {
@@ -17,6 +17,6 @@ public class PunchSpawner : MonoBehaviour
             }
         }
 
-        GameObject spawnedPunch = Instantiate(punchPrefab, SpawnPoint.position, transform.rotation);
+        GameObject spawnedPunch = Instantiate(punchPrefab, spawnPoint.position, transform.rotation);
     }
 }
