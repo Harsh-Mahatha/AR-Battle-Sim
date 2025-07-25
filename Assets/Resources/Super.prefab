@@ -165,6 +165,7 @@ MonoBehaviour:
   speed: 10
   maxLength: 50
   impactVFX: {fileID: 5657347931937374997, guid: 7a8b942c1d398004285f089de5554867, type: 3}
+  startVFX: {fileID: 1375127295658117198, guid: dba56a1f16ce5da4cba95d0ac731ffbd, type: 3}
   hitMask:
     serializedVersion: 2
     m_Bits: 8

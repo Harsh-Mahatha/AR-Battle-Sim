@@ -1,0 +1,8 @@
+Model Information:
+* title:	Gladiators Low Poly Arena (small version)
+* source:	https://sketchfab.com/3d-models/gladiators-low-poly-arena-small-version-66f006f00aee4fd58ef9e6b45a5d5958
+* author:	Leonardo Carvalho (https://sketchfab.com/livrosparacriancas)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

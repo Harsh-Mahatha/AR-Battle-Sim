@@ -274,7 +274,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  punchLifetime: 1
+  damage: 20
+  punchLifetime: 2
   punchImpactPrefab: {fileID: 8884206916097601175, guid: 7c37357920da7df429e16bb2675ad52c, type: 3}
 --- !u!65 &4965015630616719312
 BoxCollider:

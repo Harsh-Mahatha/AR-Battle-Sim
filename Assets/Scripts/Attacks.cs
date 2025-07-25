@@ -27,6 +27,10 @@ public class Attacks : MonoBehaviour
         {
             OnSuper();
         }
+        if (inputActions.Player.TakeDamage.triggered)
+        {
+            OnDamage();
+        }
     }
 
     private void OnAttack()
@@ -43,9 +47,23 @@ public class Attacks : MonoBehaviour
         Debug.Log("Super button pressed");
     }
 
+    private void OnDamage()
+    {
+        gameObject.GetComponent<PlayerMovement>().enabled = false;
+        //anim.SetTrigger("Damaged");
+        FindAnyObjectByType<HealthManager>().TakeDamage(20);
+        Debug.Log("Took Damage");
+    }
+
     private void OnSuperEnd()
     {
         gameObject.GetComponent<PlayerMovement>().enabled = true;
         Debug.Log("Super ended");
+    }   
+
+     private void OnDamageEnd()
+    {
+        gameObject.GetComponent<PlayerMovement>().enabled = true;
+        Debug.Log("Damage Taken");
     }   
 }

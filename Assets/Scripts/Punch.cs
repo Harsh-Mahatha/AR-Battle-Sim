@@ -1,8 +1,12 @@
+using JetBrains.Annotations;
+using Unity.Collections;
 using UnityEngine;
 
 public class Punch : MonoBehaviour
 {
     public float speed = 2f;
+
+    public int damage = 20;
     public float punchLifetime = 1f;
     public GameObject punchImpactPrefab;
 
@@ -26,8 +30,21 @@ public class Punch : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             Debug.Log("Punch hit: " + other.name);
+            DoDamage(damage);
             PlayHitEffect(transform.position);
             Destroy(gameObject);
+        }
+    }
+    void DoDamage(int damageAmount)
+    {
+        HealthManager healthManager = FindFirstObjectByType<HealthManager>();
+        if (healthManager != null)
+        {
+            healthManager.DealDamage(damageAmount);
+        }
+        else
+        {
+            Debug.LogWarning("HealthManager not found in the scene.");
         }
     }
     void DestroySelf()

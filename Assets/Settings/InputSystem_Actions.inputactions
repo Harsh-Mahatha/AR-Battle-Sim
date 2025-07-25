@@ -31,20 +31,18 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TakeDamage",
+                    "type": "Button",
+                    "id": "3eaae9a3-fea2-4bab-87cc-4f8b9263f3a9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "978bfe49-cc26-4a3d-ab7b-7d7a29327403",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "WASD",
                     "id": "00ca640b-d935-4593-8157-c05846ea39b3",
@@ -168,12 +166,12 @@
                 },
                 {
                     "name": "",
-                    "id": "143bb1cd-cc10-4eca-a2f0-a3664166fe91",
-                    "path": "<Gamepad>/buttonWest",
+                    "id": "1ff3da65-2d08-4462-9844-52aa3126305d",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Attack",
+                    "groups": "",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -184,6 +182,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2866fd2c-b2d2-4f35-9b8e-db4b945df68b",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -201,12 +210,34 @@
                 },
                 {
                     "name": "",
-                    "id": "b3f66d0b-7751-423f-908b-a11c5bd95930",
+                    "id": "8b411057-e4eb-4b27-84ca-a12af3ef701c",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "",
                     "action": "Super",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b77afde5-f9be-4a39-aa27-4661cc2386be",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TakeDamage",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "028c960f-de27-4a27-9c29-cf4bd5c98726",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TakeDamage",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
