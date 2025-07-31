@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class HealthManager : MonoBehaviour
 {
+    public static HealthManager Instance;
     public int playerHealth = 100, enemyHealth = 100;
 
     public int maxHealth = 100;
@@ -9,6 +10,19 @@ public class HealthManager : MonoBehaviour
     public Animator playerAnim, enemyAnim;
 
     [SerializeField] private GameObject playerHPBar, enemyHPBar;
+
+    private void Awake()
+    {
+        if (Instance == null) //Singleton pattern to ensure only one instance exists
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     public void TakeDamage(int amount)
     {

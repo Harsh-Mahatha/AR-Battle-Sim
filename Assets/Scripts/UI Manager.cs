@@ -3,10 +3,23 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance;
     public GameObject newPanel;
     public GameObject existingPanel;
     public TMP_InputField nameInputField;
     public TextMeshProUGUI welcomeText;
+    private void Awake()
+    {
+        if (Instance == null) //Singleton pattern to ensure only one instance exists
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         if(PlayerPrefs.HasKey("PlayerName"))
@@ -60,6 +73,11 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log("Please enter a valid name.");
         }
+    }
+    public void LoadBattle()
+    {
+        SceneLoader.Instance.LoadScene("Level");
+        Debug.Log("Loading Battle Scene");
     }
     
     public void QuitGame()
