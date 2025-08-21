@@ -1990,7 +1990,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 492f8781f057c3c4da454df3abce1a8c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 492f8781f057c3c4da454df3abce1a8c, type: 3}
       propertyPath: m_Controller
@@ -2044,6 +2044,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 492f8781f057c3c4da454df3abce1a8c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7326694850821722431}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 492f8781f057c3c4da454df3abce1a8c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7666918756704248117}
   m_SourcePrefab: {fileID: 100100000, guid: 492f8781f057c3c4da454df3abce1a8c, type: 3}
 --- !u!4 &2522040362464184918 stripped
 Transform:
@@ -2145,6 +2148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
+  enemyTransform: {fileID: 0}
   anim: {fileID: 8493853272012869676}
 --- !u!114 &3130781417122720204
 MonoBehaviour:
@@ -2180,6 +2184,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 7326694850821722431}
+  - {fileID: 7666918756704248117}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -2209,6 +2214,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 320b72483369b1144a9550af3c6d5275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  synchronizeVelocity: 1
+  synchronizeAngles: 1
+  canTP: 1
+  tpDistance: 1
+--- !u!114 &7666918756704248117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2903633137979379948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 1
+    SynchronizeType: 2
+    Name: MoveX
+  - Type: 1
+    SynchronizeType: 2
+    Name: MoveY
+  - Type: 9
+    SynchronizeType: 1
+    Name: Attacking
+  - Type: 9
+    SynchronizeType: 1
+    Name: Super
+  - Type: 9
+    SynchronizeType: 1
+    Name: Damaged
+  - Type: 9
+    SynchronizeType: 1
+    Name: isDead
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!95 &8493853272012869676 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 492f8781f057c3c4da454df3abce1a8c, type: 3}

@@ -11,6 +11,15 @@ public class NetworkSyncronization : MonoBehaviour, IPunObservable
     float distance, angle;
     public float tpDistance = 1f;
 
+    void Start()
+    {
+        if (!photonView.IsMine)
+        {
+            Debug.Log("enemy posi assigned");
+            gameObject.GetComponent<PlayerMovement>().enemyTransform = transform;
+        }
+    }
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();

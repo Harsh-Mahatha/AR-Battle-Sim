@@ -7,20 +7,13 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 {
 
     public GameObject playerPrefab;
-    public Transform spawnPoint;
-    void Update()
-    {
+    public Transform [] spawnPoints;
 
-    }
-
-    #region  Photon
-    public override void OnJoinedRoom()
+    public void SpawnPlayerAt(int posi)
     {
         if (PhotonNetwork.IsConnectedAndReady)
         {
-            PhotonNetwork.Instantiate(playerPrefab.name, spawnPoint.position, quaternion.identity);  
-        }   
+            PhotonNetwork.Instantiate(playerPrefab.name, spawnPoints[posi].position, quaternion.identity);
+        }
     }
-
-    #endregion
 }

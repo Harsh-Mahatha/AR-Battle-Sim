@@ -241,6 +241,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3193394015742644736, guid: b9739fb2c9d7f1d42ad8f30287f63ea3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2108598219}
+    - targetCorrespondingSourceObject: {fileID: 3193394015742644736, guid: b9739fb2c9d7f1d42ad8f30287f63ea3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 524290778}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3846678014282558480, guid: b9739fb2c9d7f1d42ad8f30287f63ea3, type: 3}
       insertIndex: -1
@@ -778,6 +781,37 @@ MonoBehaviour:
   enemyAnim: {fileID: 0}
   playerHPBar: {fileID: 310576314}
   enemyHPBar: {fileID: 1407554459}
+--- !u!1 &524290777
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 524290778}
+  m_Layer: 0
+  m_Name: 'P2SpawnLocation '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &524290778
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524290777}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: 25, y: 279.3, z: -449}
+  m_LocalScale: {x: 71.700584, y: 80.627304, z: 80.627304}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 121195911}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &551384443 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 772662216345627625, guid: b9739fb2c9d7f1d42ad8f30287f63ea3, type: 3}
@@ -1298,7 +1332,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 6534881664433916015}
-  spawnPoint: {fileID: 2108598219}
+  spawnPoints:
+  - {fileID: 2108598219}
+  - {fileID: 524290778}
 --- !u!1 &1065383345
 GameObject:
   m_ObjectHideFlags: 0
@@ -3111,7 +3147,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2108598219}
   m_Layer: 0
-  m_Name: SpawnLocation
+  m_Name: P1SpawnLocation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3248,14 +3284,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mutant
       objectReference: {fileID: 0}
+    - target: {fileID: 2903633137979379948, guid: 354ef306c34312f40ac5aeac152366ef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6016031265534004248, guid: 354ef306c34312f40ac5aeac152366ef, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 330585545}
-    - target: {fileID: 7326694850821722431, guid: 354ef306c34312f40ac5aeac152366ef, type: 3}
-      propertyPath: canTP
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

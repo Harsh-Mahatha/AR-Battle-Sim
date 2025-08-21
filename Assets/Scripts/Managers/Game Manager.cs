@@ -51,11 +51,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.Log(PhotonNetwork.NickName + "Joined to " + PhotonNetwork.CurrentRoom.Name);
             infoText.text = "Created and joined " + PhotonNetwork.CurrentRoom.Name + " waiting for other player...";
+            FindAnyObjectByType<SpawnManager>().SpawnPlayerAt(0);
         }
         else
         {
             Debug.Log("Joined to " + PhotonNetwork.CurrentRoom.Name);
             infoText.text = " You Joined " + PhotonNetwork.CurrentRoom.Name;
+            FindAnyObjectByType<SpawnManager>().SpawnPlayerAt(1);
             StartCoroutine(DisableAfterSeconds(infoPanel, 2f));
         }
     }
