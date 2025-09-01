@@ -3236,10 +3236,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -3042287001503695746, guid: 354ef306c34312f40ac5aeac152366ef, type: 3}
-      propertyPath: sceneViewId
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2522040362464184918, guid: 354ef306c34312f40ac5aeac152366ef, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.14158
@@ -3283,10 +3279,6 @@ PrefabInstance:
     - target: {fileID: 2903633137979379948, guid: 354ef306c34312f40ac5aeac152366ef, type: 3}
       propertyPath: m_Name
       value: Mutant
-      objectReference: {fileID: 0}
-    - target: {fileID: 2903633137979379948, guid: 354ef306c34312f40ac5aeac152366ef, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6016031265534004248, guid: 354ef306c34312f40ac5aeac152366ef, type: 3}
       propertyPath: m_Camera

@@ -1,37 +1,40 @@
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+
 public class PlayerSetup : MonoBehaviourPun
 {
     public TextMeshProUGUI playerName, enemyName;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (photonView.IsMine)
         {
-            gameObject.GetComponent<PlayerMovement>().enabled = true;
-            transform.Find("Player Canvas").gameObject.SetActive(true); // Activate the child object (e.g., player model)
+            GetComponent<PlayerMovement>().enabled = true;
+            GetComponent<Attacks>().enabled = true;
+            transform.Find("Player Canvas").gameObject.SetActive(true);
+
+            SetPlayerName("You", Color.blue);
         }
         else
         {
-            gameObject.GetComponent<PlayerMovement>().enabled = false;
-            transform.Find("Player Canvas").gameObject.SetActive(false); // Deactivate the child object for other players
-        }
+            GetComponent<PlayerMovement>().enabled = false;
+            GetComponent<Attacks>().enabled = false;
+            transform.Find("Player Canvas").gameObject.SetActive(false);
 
+            GetComponentInChildren<Renderer>().material.color = Color.red;
+        }
     }
 
-    void SetPlayerNames()
+    void SetPlayerName(string name, Color color)
     {
-        if (photonView.IsMine)
-        {
-            playerName.text = "You";
-            playerName.color = Color.blue;
-        }
-        else
-        {
-            enemyName.text = photonView.Owner.NickName;
-            enemyName.color = Color.red;
-        }
+        playerName.text = name;
+        playerName.color = color;
+    }
+
+    public void SetEnemyName(string name, Color color)
+    {
+        enemyName.text = name;
+        enemyName.color = color;
     }
 }

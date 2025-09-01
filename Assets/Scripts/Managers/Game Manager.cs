@@ -62,13 +62,24 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
+   public override void OnPlayerEnteredRoom(Player newPlayer)
+{
+    Debug.Log(newPlayer.NickName + " joined " + PhotonNetwork.CurrentRoom.Name);
+    infoText.text = "Found Match " + newPlayer.NickName + " joined the room.";
+    StartCoroutine(AssignEnemiesWhenReady());
+    StartCoroutine(DisableAfterSeconds(infoPanel, 2f));
+}
+
+    private IEnumerator AssignEnemiesWhenReady()
     {
-        Debug.Log(newPlayer.NickName + "Joined to " + PhotonNetwork.CurrentRoom.Name);
-        infoText.text = "Found Match " + newPlayer.NickName + " joined the room.";
-        StartCoroutine(DisableAfterSeconds(infoPanel, 2f));
+        // Wait until there are 2 PlayerMovement instances in the scene (on this client)
+        yield return new WaitUntil(() => FindObjectsOfType<PlayerMovement>().Length >= 2);
+        yield return null;
+            foreach (var pm in FindObjectsOfType<PlayerMovement>())
+            {
+            pm.AssignEnemy();   
+            }
+            
     }
-
     #endregion
-
 }

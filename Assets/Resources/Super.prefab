@@ -163,7 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 297412916237934424}
   speed: 10
-  maxLength: 25
+  maxLength: 20
   damage: 40
   impactVFX: {fileID: 5657347931937374997, guid: 7a8b942c1d398004285f089de5554867, type: 3}
   startVFX: {fileID: 1375127295658117198, guid: dba56a1f16ce5da4cba95d0ac731ffbd, type: 3}
