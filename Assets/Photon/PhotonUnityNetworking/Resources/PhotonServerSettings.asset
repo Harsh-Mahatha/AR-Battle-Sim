@@ -39,6 +39,13 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - RPCDealDamage
+  - RPCOnAttack
+  - RPCOnSuper
+  - RPCTakeDamage
+  - RPCPlayHitEffect
+  - RPCApplyDamage
+  - RPCTakePunchDamage
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

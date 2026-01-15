@@ -12,7 +12,7 @@ public class SuperSpawner : MonoBehaviour
             superPrefab = Resources.Load<GameObject>("Super");
             if (superPrefab == null)
             {
-                Debug.LogError("Punch prefab not found in Resources folder.");
+                Debug.LogError("Super prefab not found in Resources folder.");
                 return;
             }
         }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 using System;
+
 public class NetworkSyncronization : MonoBehaviour, IPunObservable
 {
     Rigidbody rb;
@@ -10,15 +11,6 @@ public class NetworkSyncronization : MonoBehaviour, IPunObservable
     public bool synchronizeVelocity = true, synchronizeAngles = true, canTP = true;
     float distance, angle;
     public float tpDistance = 1f;
-
-    void Start()
-    {
-        if (!photonView.IsMine)
-        {
-            Debug.Log("enemy posi assigned");
-            gameObject.GetComponent<PlayerMovement>().enemyTransform = transform;
-        }
-    }
 
     void Awake()
     {

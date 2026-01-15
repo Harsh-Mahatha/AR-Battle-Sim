@@ -32,21 +32,31 @@ public class PlayerMovement : MonoBehaviour
             inputActions.Disable();
     }
 
-    void Start()
+   public void AssignEnemy()
     {
-        if (photonView.IsMine)
+        Debug.Log("Assigning Enemy for " + photonView.Owner.NickName);
+        foreach (var player in FindObjectsOfType<PlayerMovement>())
         {
-            foreach (var player in FindObjectsOfType<PlayerMovement>())
+            if (player != this)
             {
-                if (player != this) 
+                enemyTransform = player.transform;
+                player.enemyTransform = this.transform;
+                if (photonView.IsMine)
                 {
-                    enemyTransform = player.transform;
-                    player.enemyTransform = this.transform; // also assign me as enemy for them
+                player.tag = "Enemy";
+                }
+
+                var mySetup = GetComponent<PlayerSetup>();
+                var enemySetup = player.GetComponent<PlayerSetup>();
+
+                if (mySetup != null && enemySetup != null)
+                {
+                    mySetup.SetEnemyName(player.photonView.Owner.NickName, Color.red);
+                    enemySetup.SetEnemyName(photonView.Owner.NickName, Color.blue);
                 }
             }
         }
     }
-
     void Update()
     {
         if (!photonView.IsMine) return; 

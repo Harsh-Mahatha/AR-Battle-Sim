@@ -1,9 +1,16 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class Attacks : MonoBehaviour
+public class Attacks : MonoBehaviourPunCallbacks
 {
     public PlayerInputActions inputActions;
     public Animator anim;
+    private PhotonView photonView;
+
+    private void Start()
+    {
+        photonView = GetComponent<PhotonView>();
+    }
 
     private void OnEnable()
     {
@@ -35,33 +42,61 @@ public class Attacks : MonoBehaviour
 
     private void OnAttack()
     {
+        if (photonView.IsMine)
+        {
+            photonView.RPC("RPCOnAttack", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void RPCOnAttack()
+    {
         anim.SetTrigger("Attacking");
         GetComponent<PunchSpawner>().SpawnPunch();
-        Debug.Log("Attack button pressed");
+        Debug.Log("Attack synchronized");
     }
 
     private void OnSuper()
     {
+        if (photonView.IsMine)
+        {
+            photonView.RPC("RPCOnSuper", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void RPCOnSuper()
+    {
         gameObject.GetComponent<PlayerMovement>().enabled = false;
         anim.SetTrigger("Super");
-        Debug.Log("Super button pressed");
+        Debug.Log("Super synchronized");
     }
 
     private void OnDamage()
     {
-        gameObject.GetComponent<PlayerMovement>().enabled = false;
-        //anim.SetTrigger("Damaged");
-        FindAnyObjectByType<HealthManager>().TakeDamage(20);
-        Debug.Log("Took Damage");
+        if (photonView.IsMine)
+        {
+            PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.enabled = false;
+            }
+            HealthManager healthManager = GetComponent<HealthManager>();
+            if (healthManager != null)
+            {
+                healthManager.TakeDamage(20);
+                Debug.Log("Took Damage");
+            }
+        }
     }
 
-    private void OnSuperEnd()
+    public void OnSuperEnd()
     {
         gameObject.GetComponent<PlayerMovement>().enabled = true;
         Debug.Log("Super ended");
     }   
 
-     private void OnDamageEnd()
+     public void OnDamageEnd()
     {
         gameObject.GetComponent<PlayerMovement>().enabled = true;
         Debug.Log("Damage Taken");

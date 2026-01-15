@@ -76,8 +76,15 @@ public class UIManager : MonoBehaviour
     }
     public void LoadBattle()
     {
-        SceneLoader.Instance.LoadScene("Level");
-        Debug.Log("Loading Battle Scene");
+        if (SceneLoader.Instance != null)
+        {
+            SceneLoader.Instance.LoadScene("Level");
+            Debug.Log("Loading Battle Scene");
+        }
+        else
+        {
+            Debug.LogError("SceneLoader.Instance is null!");
+        }
     }
     
     public void QuitGame()
