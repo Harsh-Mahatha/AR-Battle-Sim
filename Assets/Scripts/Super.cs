@@ -1,6 +1,7 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class Super : MonoBehaviour
+public class Super : MonoBehaviourPunCallbacks
 {
     public LineRenderer lineRenderer;
     public float speed = 40f;
@@ -81,15 +82,26 @@ public class Super : MonoBehaviour
 
     void DoDamage()
     {
-        HealthManager healthManager = FindFirstObjectByType<HealthManager>();
-        if (healthManager != null)
+        // Find the enemy's HealthManager by checking colliders
+        Collider[] hitColliders = Physics.OverlapSphere(endPoint, 0.5f, hitMask);
+        foreach (var collider in hitColliders)
         {
-            healthManager.DealDamage(damage);
-            Debug.Log("Super attack dealt " + damage + " damage.");
+            if (collider.CompareTag("Enemy"))
+            {
+                PhotonView otherPhotonView = collider.GetComponent<PhotonView>();
+                if (otherPhotonView != null)
+                {
+                    HealthManager healthManager = collider.GetComponentInParent<HealthManager>();
+                    if (healthManager != null)
+                    {
+                        healthManager.TakeDamage(damage);
+                        Debug.Log("Super attack dealt " + damage + " damage.");
+                        return;
+                    }
+                }
+            }
         }
-        else
-        {
-            Debug.LogWarning("HealthManager not found in the scene.");
-        }
+        
+        Debug.LogWarning("Enemy HealthManager not found for Super attack.");
     }
 }

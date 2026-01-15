@@ -1,77 +1,135 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class HealthManager : MonoBehaviour
+public class HealthManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     public static HealthManager Instance;
-    public int playerHealth = 100, enemyHealth = 100;
+    public static HealthManager RemoteHealthManager;
+    
+    public PhotonView photonView;
 
+    [SerializeField]
+    private int currentHealth = 100;
     public int maxHealth = 100;
 
-    public Animator playerAnim, enemyAnim;
-
-    [SerializeField] private GameObject playerHPBar, enemyHPBar;
+    public Animator playerAnim;
+    public GameObject healthBar;
+    public GameObject enemyHealthBar;
+    
+    private int remoteHealth = 100;
 
     private void Awake()
     {
-        if (Instance == null) //Singleton pattern to ensure only one instance exists
+        if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(gameObject);
+            RemoteHealthManager = this;
         }
     }
 
+    private void Start()
+    {
+        photonView = GetComponent<PhotonView>();
+        currentHealth = maxHealth;
+        remoteHealth = maxHealth;
+    }
+
+    // Only the owner of this HealthManager takes damage
     public void TakeDamage(int amount)
     {
-        playerHealth -= amount;
-        if (playerHealth <= 0)
+        if (photonView.IsMine)
         {
-            playerHealth = 0;
-            Playerdead();
+            photonView.RPC("RPCTakeDamage", RpcTarget.All, amount);
         }
-        playerAnim.SetTrigger("Damaged");
-        playerHPBar.GetComponent<HealthBar>().UpdateHealth(playerHealth, maxHealth);
-        Debug.Log(" Player Health: " + playerHealth);
     }
 
-    public void DealDamage(int amount)
+    [PunRPC]
+    private void RPCTakeDamage(int amount)
     {
-        enemyHealth -= amount;
-        if (enemyHealth <= 0)
+        currentHealth -= amount;
+        if (currentHealth <= 0)
         {
-            enemyHealth = 0;
-            Enemydead();
+            currentHealth = 0;
+            if (playerAnim != null)
+            {
+                playerAnim.SetTrigger("isDead");
+            }
         }
-        enemyAnim.SetTrigger("Damaged");
-        enemyHPBar.GetComponent<HealthBar>().UpdateHealth(enemyHealth, maxHealth);
-        Debug.Log(" Enemy Health: " + enemyHealth);
-    }
-    public int GetCurrentPlayerHealth()
-    {
-        return playerHealth;
+        else
+        {
+            if (playerAnim != null)
+            {
+                playerAnim.SetTrigger("Damaged");
+            }
+        }
+        
+        // Update local player's own health bar
+        if (photonView.IsMine && healthBar != null)
+        {
+            HealthBar healthBarComponent = healthBar.GetComponent<HealthBar>();
+            if (healthBarComponent != null)
+            {
+                healthBarComponent.UpdateHealth(currentHealth, maxHealth);
+            }
+        }
+        
+        // Update remote player's enemy health bar (on the local player's UI)
+        if (!photonView.IsMine && Instance != null && Instance.enemyHealthBar != null)
+        {
+            HealthBar enemyHealthBarComponent = Instance.enemyHealthBar.GetComponent<HealthBar>();
+            if (enemyHealthBarComponent != null)
+            {
+                enemyHealthBarComponent.UpdateHealth(currentHealth, maxHealth);
+            }
+        }
     }
 
-    public int GetCurrentEnemyHealth()
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        return enemyHealth;
+        if (stream.IsWriting)
+        {
+            // Send local player's health to others
+            stream.SendNext(currentHealth);
+        }
+        else
+        {
+            try
+            {
+                // Receive remote player's health
+                remoteHealth = (int)stream.ReceiveNext();
+                
+                // Update enemy health bar on the local player's HealthManager instance
+                if (Instance != null && Instance != this && Instance.enemyHealthBar != null)
+                {
+                    HealthBar healthBarComponent = Instance.enemyHealthBar.GetComponent<HealthBar>();
+                    if (healthBarComponent != null)
+                    {
+                        healthBarComponent.UpdateHealth(remoteHealth, maxHealth);
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError("Error in OnPhotonSerializeView READING: " + e.Message);
+            }
+        }
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
+    public int GetRemoteHealth()
+    {
+        return remoteHealth;
     }
 
     public int GetMaxHealth()
     {
         return maxHealth;
-    }
-    private void Playerdead()
-    {
-        Debug.Log("Player is dead");
-        playerAnim.SetTrigger("isDead");
-    }
-
-     private void Enemydead()
-    {
-        Debug.Log("Enemy is dead");
-        enemyAnim.SetTrigger("isDead");
     }
 }

@@ -47,39 +47,65 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     public override void OnJoinedRoom()
-    {   if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+    {
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
         {
-            Debug.Log(PhotonNetwork.NickName + "Joined to " + PhotonNetwork.CurrentRoom.Name);
+            Debug.Log(PhotonNetwork.NickName + " Joined to " + PhotonNetwork.CurrentRoom.Name);
             infoText.text = "Created and joined " + PhotonNetwork.CurrentRoom.Name + " waiting for other player...";
-            FindAnyObjectByType<SpawnManager>().SpawnPlayerAt(0);
+            SpawnManager spawnManager = FindAnyObjectByType<SpawnManager>();
+            if (spawnManager != null)
+            {
+                spawnManager.SpawnPlayerAt(0);
+            }
         }
         else
         {
             Debug.Log("Joined to " + PhotonNetwork.CurrentRoom.Name);
             infoText.text = " You Joined " + PhotonNetwork.CurrentRoom.Name;
-            FindAnyObjectByType<SpawnManager>().SpawnPlayerAt(1);
+            SpawnManager spawnManager = FindAnyObjectByType<SpawnManager>();
+            if (spawnManager != null)
+            {
+                spawnManager.SpawnPlayerAt(1);
+            }
+            
+            StartCoroutine(AssignEnemiesWhenReady());
             StartCoroutine(DisableAfterSeconds(infoPanel, 2f));
         }
     }
 
-   public override void OnPlayerEnteredRoom(Player newPlayer)
-{
-    Debug.Log(newPlayer.NickName + " joined " + PhotonNetwork.CurrentRoom.Name);
-    infoText.text = "Found Match " + newPlayer.NickName + " joined the room.";
-    StartCoroutine(AssignEnemiesWhenReady());
-    StartCoroutine(DisableAfterSeconds(infoPanel, 2f));
-}
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        Debug.Log(newPlayer.NickName + " joined " + PhotonNetwork.CurrentRoom.Name);
+        infoText.text = "Found Match " + newPlayer.NickName + " joined the room.";
+        StartCoroutine(AssignEnemiesWhenReady());
+        StartCoroutine(DisableAfterSeconds(infoPanel, 2f));
+    }
 
     private IEnumerator AssignEnemiesWhenReady()
     {
         // Wait until there are 2 PlayerMovement instances in the scene (on this client)
         yield return new WaitUntil(() => FindObjectsOfType<PlayerMovement>().Length >= 2);
         yield return null;
-            foreach (var pm in FindObjectsOfType<PlayerMovement>())
-            {
+        
+        foreach (var pm in FindObjectsOfType<PlayerMovement>())
+        {
             pm.AssignEnemy();   
+        }
+        
+        // Swap HP bars for the second player if needed
+        if (PhotonNetwork.CurrentRoom != null && PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            // Find the local player's PlayerSetup and check if bars need swapping
+            PlayerSetup[] playerSetups = FindObjectsOfType<PlayerSetup>();
+            foreach (var setup in playerSetups)
+            {
+                if (setup.photonView != null && setup.photonView.IsMine)
+                {
+                    setup.CheckAndSwapBars();
+                    break;
+                }
             }
-            
+        }
     }
     #endregion
 }

@@ -1,12 +1,21 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class PunchSpawner : MonoBehaviour
+public class PunchSpawner : MonoBehaviourPunCallbacks
 {
     public GameObject punchPrefab;
     public Transform spawnPoint;
+    private PhotonView photonView;
+
+    private void Start()
+    {
+        photonView = GetComponent<PhotonView>();
+    }
 
     public void SpawnPunch()
     {
+        if (!photonView.IsMine) return;
+
         if (punchPrefab == null)
         {
             punchPrefab = Resources.Load<GameObject>("Punch");
@@ -17,6 +26,7 @@ public class PunchSpawner : MonoBehaviour
             }
         }
 
-        GameObject spawnedPunch = Instantiate(punchPrefab, spawnPoint.position, transform.rotation);
+        // Use PhotonNetwork.Instantiate instead of GameObject.Instantiate
+        PhotonNetwork.Instantiate(punchPrefab.name, spawnPoint.position, transform.rotation);
     }
 }

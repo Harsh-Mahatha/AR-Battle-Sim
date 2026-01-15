@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 using System;
+
 public class NetworkSyncronization : MonoBehaviour, IPunObservable
 {
     Rigidbody rb;
