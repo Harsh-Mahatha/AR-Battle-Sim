@@ -3,6 +3,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using TMPro;
 using System.Collections;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -28,7 +29,35 @@ public class GameManager : MonoBehaviourPunCallbacks
         controlsHud.SetActive(true);
     }
 
+    public void GameOver()
+    {
+        infoPanel.SetActive(true);
+        infoText.text = "Game Over!\nReturning to Lobby...☠️☠️";
+        StartCoroutine(DisableAfterSeconds(infoPanel, 3f));
+        // Close the room so no new players can join and notify others
+        if (PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom != null)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+        }
 
+        StartCoroutine(ReturnToLobbyAfterSeconds(3f));
+    }
+
+    public void GameWon()
+    {
+        infoPanel.SetActive(true);
+        infoText.text = "You Won!\nReturning to Lobby...🏆🏆";
+        StartCoroutine(DisableAfterSeconds(infoPanel, 3f));
+        StartCoroutine(ReturnToLobbyAfterSeconds(3f));
+    }
+
+    private IEnumerator ReturnToLobbyAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        PhotonNetwork.LeaveRoom();
+        SceneLoader.Instance.LoadScene("Level");
+    }
 
     #region Photon
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -79,6 +108,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         infoText.text = "Found Match " + newPlayer.NickName + " joined the room.";
         StartCoroutine(AssignEnemiesWhenReady());
         StartCoroutine(DisableAfterSeconds(infoPanel, 2f));
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        Debug.Log(otherPlayer.NickName + " left " + (PhotonNetwork.CurrentRoom != null ? PhotonNetwork.CurrentRoom.Name : "room"));
+        // If a player left while we're still in the room, we consider it a win for the remaining player
+        if (PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        {
+            GameWon();
+        }
     }
 
     private IEnumerator AssignEnemiesWhenReady()
