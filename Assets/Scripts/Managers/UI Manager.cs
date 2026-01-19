@@ -86,6 +86,19 @@ public class UIManager : MonoBehaviour
             Debug.LogError("SceneLoader.Instance is null!");
         }
     }
+
+    public void GoToMainMenu()
+    {
+        if (SceneLoader.Instance != null)
+        {
+            SceneLoader.Instance.LoadScene("Home Screen");
+            Debug.Log("Loading Main Menu Scene");
+        }
+        else
+        {
+            Debug.LogError("SceneLoader.Instance is null!");
+        }
+    }
     
     public void QuitGame()
     {

@@ -53,5 +53,17 @@ public class AdjustmentandPlacementController : MonoBehaviour
         {
             plane.gameObject.SetActive(status);
         }
-    }    
+    }  
+    public void GoToMainMenu()
+    {
+        if (SceneLoader.Instance != null)
+        {
+            SceneLoader.Instance.LoadScene("Home Screen");
+            Debug.Log("Loading Main Menu Scene");
+        }
+        else
+        {
+            Debug.LogError("SceneLoader.Instance is null!");
+        }
+    }  
 }
