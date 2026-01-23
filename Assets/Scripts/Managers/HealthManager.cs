@@ -75,6 +75,15 @@ public class HealthManager : MonoBehaviourPunCallbacks, IPunObservable
                     PhotonNetwork.CurrentRoom.IsVisible = false;
                 }
                 gameManager.GameOver();
+                // Notify other clients that this player died so they can trigger a win locally
+                try
+                {
+                    photonView.RPC("RPCNotifyOpponentWon", RpcTarget.Others);
+                }
+                catch (System.Exception e)
+                {
+                    Debug.LogWarning("Failed to RPC notify opponent of win: " + e.Message);
+                }
             }
         }
         else
@@ -131,6 +140,23 @@ public class HealthManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             // Stop any Super that is still active
             s.StopLocally(position);
+        }
+    }
+
+    [PunRPC]
+    private void RPCNotifyOpponentWon()
+    {
+        if (gameManager == null)
+        {
+#if UNITY_2023_2_OR_NEWER
+            gameManager = GameObject.FindFirstObjectByType<GameManager>();
+#else
+            gameManager = FindObjectOfType<GameManager>();
+#endif
+        }
+        if (gameManager != null)
+        {
+            gameManager.GameWon();
         }
     }
 
