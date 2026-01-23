@@ -53,7 +53,18 @@ public class AdjustmentandPlacementController : MonoBehaviour
         {
             plane.gameObject.SetActive(status);
         }
-    }  
+    }
+
+    void Update()
+    {
+         if(Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android)
+        {
+            if(Input.GetKey(KeyCode.Escape))
+            {
+                GoToMainMenu();
+            }
+        }
+    }
     public void GoToMainMenu()
     {
         if (SceneLoader.Instance != null)

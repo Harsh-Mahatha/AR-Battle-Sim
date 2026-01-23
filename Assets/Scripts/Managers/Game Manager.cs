@@ -7,9 +7,10 @@ using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    public GameObject infoPanel, findMatchButton;
+    public GameObject infoPanel, findMatchButton, adjustButton, exitButton;
     public TextMeshProUGUI infoText;
     public GameObject controlsHud;
+    private string sceneToLoadAfterLeave;
     void Start()
     {
         infoPanel.SetActive(true);
@@ -20,6 +21,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom();
         infoText.text = "Finding Matches...";
         findMatchButton.SetActive(false);
+        adjustButton.SetActive(false);
+        exitButton.SetActive(false);
     }
 
     private IEnumerator DisableAfterSeconds(GameObject gameObject, float seconds)
@@ -32,31 +35,62 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void GameOver()
     {
         infoPanel.SetActive(true);
-        infoText.text = "Game Over!\nReturning to Lobby...☠️☠️";
-        StartCoroutine(DisableAfterSeconds(infoPanel, 3f));
+        infoText.text = "Calculating Results ...";
         // Close the room so no new players can join and notify others
         if (PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom != null)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.CurrentRoom.IsVisible = false;
         }
-
-        StartCoroutine(ReturnToLobbyAfterSeconds(3f));
+        // Leave the room first so the client returns to the master server before loading scenes
+        sceneToLoadAfterLeave = "Lose Scene";
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+        else
+        {
+            SceneLoader.Instance.LoadScene(sceneToLoadAfterLeave);
+            sceneToLoadAfterLeave = null;
+        }
     }
 
     public void GameWon()
     {
         infoPanel.SetActive(true);
-        infoText.text = "You Won!\nReturning to Lobby...🏆🏆";
-        StartCoroutine(DisableAfterSeconds(infoPanel, 3f));
-        StartCoroutine(ReturnToLobbyAfterSeconds(3f));
-    }
+        infoText.text = "Calculating Results ...";
+        // Close the room so no new players can join and notify others
+        if (PhotonNetwork.InRoom && PhotonNetwork.CurrentRoom != null)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+        }
+        // Leave the room first so the client returns to the master server before loading scenes
+        sceneToLoadAfterLeave = "Won Scene";
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+        else
+        {
+            SceneLoader.Instance.LoadScene(sceneToLoadAfterLeave);
+            sceneToLoadAfterLeave = null;
+        }
+        }
 
     private IEnumerator ReturnToLobbyAfterSeconds(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        PhotonNetwork.LeaveRoom();
-        SceneLoader.Instance.LoadScene("Level");
+        sceneToLoadAfterLeave = "Level";
+        if (PhotonNetwork.InRoom)
+        {
+            PhotonNetwork.LeaveRoom();
+        }
+        else
+        {
+            SceneLoader.Instance.LoadScene(sceneToLoadAfterLeave);
+            sceneToLoadAfterLeave = null;
+        }
     }
 
     #region Photon
@@ -119,6 +153,17 @@ public class GameManager : MonoBehaviourPunCallbacks
             GameWon();
         }
     }
+
+    public override void OnLeftRoom()
+    {
+        // Called when this client successfully left the room and returned to the master server
+        if (!string.IsNullOrEmpty(sceneToLoadAfterLeave))
+        {
+            SceneLoader.Instance.LoadScene(sceneToLoadAfterLeave);
+            sceneToLoadAfterLeave = null;
+        }
+    }
+
 
     private IEnumerator AssignEnemiesWhenReady()
     {

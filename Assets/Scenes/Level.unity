@@ -165,6 +165,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   infoPanel: {fileID: 807402867}
   findMatchButton: {fileID: 1592432837}
+  adjustButton: {fileID: 1737696234}
+  exitButton: {fileID: 1672706764}
   infoText: {fileID: 1991447823}
   controlsHud: {fileID: 473015131}
 --- !u!1001 &121195910
@@ -3204,22 +3206,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mutant
       objectReference: {fileID: 0}
-    - target: {fileID: 2903633137979379948, guid: 354ef306c34312f40ac5aeac152366ef, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5632423395886897979, guid: 354ef306c34312f40ac5aeac152366ef, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6016031265534004248, guid: 354ef306c34312f40ac5aeac152366ef, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 330585545}
-    - target: {fileID: 8463527889491076328, guid: 354ef306c34312f40ac5aeac152366ef, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1507591345}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
